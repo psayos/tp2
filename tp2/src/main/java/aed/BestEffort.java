@@ -3,6 +3,8 @@ package aed;
 import java.util.ArrayList;
 
 public class BestEffort {
+    private Operaciones operaciones;
+    private Estadisticas estadisticas;
     
 
     public BestEffort(int cantCiudades, Traslado[] traslados){

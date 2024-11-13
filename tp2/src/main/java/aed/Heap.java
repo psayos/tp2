@@ -1,14 +1,17 @@
 package aed;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
-private class heap<T> {
+
+public class Heap<T> {
     ArrayList<T> elementos;
     Comparator<T> comparador;
 
-    public heap(ArrayList<T> array, Comparator<T> comparator) {
-        this.elementos = heapfy(array);
+    public Heap(ArrayList<T> array, Comparator<T> comparator) {
         this.comparador = comparator;
+        this.elementos = new ArrayList<T>();
+        this.elementos = heapify(array);
     }
 
 
@@ -25,10 +28,11 @@ private class heap<T> {
         if(indice == 0){
             return;
         } else{
+            int indice_padre = 0;
             if(indice % 2 == 0) { // Es hijo derecho.
-                int indice_padre = (i-2)/2;
+                indice_padre = (indice-2)/2;
             }else{
-                indice_padre = (i-1)/2;
+                indice_padre = (indice-1)/2;
             }
             if(comparador.compare(elementos.get(indice), elementos.get(indice_padre)) > 0){
                 swap(indice,indice_padre);
@@ -39,7 +43,7 @@ private class heap<T> {
 
     public void swap(int indice1,int indice2){
         T indice3 = elementos.get(indice1);
-        elementos.set(indice1,array.get(indice2));
+        elementos.set(indice1,elementos.get(indice2));
         elementos.set(indice2,indice3);
     }
 
@@ -95,28 +99,28 @@ public T desencolar(){
 
 
 
-    public void shift_down(int indice){
-        int indice1 = indice;
-        while(true){
-            int l = 2*indice1 + 1;
-            int r = 2*indice1 + 2;
-            f (l < tamaño && comparador.compare(elementos.get(l), elementos.get(maxIndex)) > 0) {
-                indice1 = l;
+
+    private void shift_down(int indice) {
+        int n = elementos.size();
+
+        while (true) {
+            int l = 2 * indice + 1;
+            int r = 2 * indice + 2;
+            int maxIndex = indice;
+
+            if (l < n && comparador.compare(elementos.get(l), elementos.get(maxIndex)) > 0) {
+                maxIndex = l;
             }
 
-            // Verifica si el hijo derecho existe y es mayor que el mayor actual
-            if (r < tamaño && comparador.compare(elementos.get(r), elementos.get(maxIndex)) > 0) {
-                indice1 = r;
+            if (r < n && comparador.compare(elementos.get(r), elementos.get(maxIndex)) > 0) {
+                maxIndex = r;
             }
 
-            // Si no se necesita hacer más intercambios, se detiene
-            if (i == indice1) {
+            if (indice == maxIndex) {
                 break;
             }
-
-            // Intercambia el nodo con el mayor hijo
-            swap(i, indice1);
-            i = indice1;
+            swap(indice, maxIndex);
+            indice = maxIndex;
         }
     }
 

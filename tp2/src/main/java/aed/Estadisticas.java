@@ -13,7 +13,7 @@ public class Estadisticas {
 
 
 
-    public void EstadisticasVacias(int cant_ciudades) {
+    public  Estadisticas(int cant_ciudades) {
         ArrayList<Ciudad> ciudades = new ArrayList<>();
         for(int i = 0; i<cant_ciudades;i++){
             Ciudad nueva_ciudad = new Ciudad(i,0,0);
@@ -52,7 +52,7 @@ public class Estadisticas {
     public ArrayList<Integer> actualizar_registro(ArrayList<Integer> anterior, Ciudad ciudad, int valor) {
         int i = 0;
         ArrayList<Integer> nuevo_registro = new ArrayList<>();
-        if (valor > anterior.get(0)) {
+        if (anterior.isEmpty() || valor > anterior.get(0)) {
             nuevo_registro.add(0, ciudad.id());
         }else{
             if(valor == anterior.get(0)){

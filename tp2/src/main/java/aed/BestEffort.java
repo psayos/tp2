@@ -13,8 +13,7 @@ public class BestEffort {
             array_traslados.add(traslados[i]);
         }
         this.operaciones = new Operaciones(array_traslados); // O(|T|)
-
-
+        this.estadisticas = new Estadisticas(cantCiudades);
     }
 
     public void registrarTraslados(Traslado[] traslados) {
@@ -23,7 +22,6 @@ public class BestEffort {
             this.operaciones.heap_ganancia().encolar(traslados[i]);
         }
     }
-// Complejidad: O(nlog(n))
 
     public int[] despacharMasRedituables(int n){
         int[] res = new int[n];
@@ -31,6 +29,7 @@ public class BestEffort {
         for(int i = 0; i<n;i++){
             mas_redituable = this.operaciones.heap_ganancia().desencolar();
             res[i] = mas_redituable.id;
+            estadisticas.registrarFinanzas(mas_redituable);
         }
         return res;
     }
@@ -41,28 +40,25 @@ public class BestEffort {
         for(int i = 0;i<n;i++){
             mas_antiguo = this.operaciones.heap_tiempo().desencolar();
             res[i] = mas_antiguo.id;
+            estadisticas.registrarFinanzas(mas_antiguo);
         }
         return res;
     }
 
     public int ciudadConMayorSuperavit(){
-        // Implementar
-        return 0;
+        Ciudad ciudad_mayor_superavit = estadisticas.heapSuperavit.desencolar();
+        return ciudad_mayor_superavit.id();
     }
 
     public ArrayList<Integer> ciudadesConMayorGanancia(){
-        // Implementar
-        return null;
+        return estadisticas.ganadora;
     }
 
     public ArrayList<Integer> ciudadesConMayorPerdida(){
-        // Implementar
-        return null;
+        return estadisticas.perdedora;
     }
 
     public int gananciaPromedioPorTraslado(){
-        // Implementar
-        return 0;
+        return estadisticas.ganancia_total/ estadisticas.traslados;
     }
-    
 }

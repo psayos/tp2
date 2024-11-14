@@ -12,10 +12,11 @@ public class Heap<T> {
     public Heap(ArrayList<T> array, Comparator<T> comparator) {
         this.comparador = comparator;
         this.elementos = new ArrayList<T>();
-        this.elementos = heapify(array);
+        this.indices = new ArrayList<>();
         for (int i = 0; i < array.size(); i++) {
             indices.add(i); // Inicializa con índices en orden
         }
+        this.elementos = heapify(array);
     }
 
 

@@ -1,13 +1,13 @@
 package aed;
 
-
+import java.util.Comparator;
 
 public class ComparadorGanancias implements Comparator<Traslado> {
-    public int compare(Traslado traslado1, Traslado traslado2){
-        if(traslado1.gananciaNeta() == traslado2.gananciaNeta()){
-            return Integer.compare(traslado1.id(),traslado2.id())
-        }else{
+    public int compare(Traslado t1, Traslado t2) {
+        if (t1.gananciaNeta() == t2.gananciaNeta()) {
+            return Integer.compare(t2.id(), t1.id());
+        } else {
+            return Integer.compare(t1.gananciaNeta(), t2.gananciaNeta());
         }
-        return Integer.compare(traslado1.gananciaNeta(), traslado2.gananciaNeta())
     }
 }

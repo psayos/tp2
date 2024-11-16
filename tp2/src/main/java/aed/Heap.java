@@ -11,9 +11,9 @@ public class Heap<T> {
     private boolean esGanancia;
 
 
-    public Heap(ArrayList<T> arr, Comparator<T> comp, boolean esCiudad, boolean esGanancia) { // Complejidad O(n)
-        tamaño = arr.size();
-        elementos = new ArrayList<T>(arr);
+    public Heap(ArrayList<T> array_elementos, Comparator<T> comp, boolean esCiudad, boolean esGanancia) { // Complejidad O(n)
+        tamaño = array_elementos.size();
+        elementos = new ArrayList<T>(array_elementos);
         comparador = comp;
         this.esCiudad = esCiudad;
         this.esGanancia = esGanancia;

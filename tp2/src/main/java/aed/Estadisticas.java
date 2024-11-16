@@ -37,8 +37,8 @@ public class Estadisticas {
         origen.actualizarGanancia(traslado.gananciaNeta);
         Ciudad destino = ciudades.get(traslado.destino);
         destino.actualizarPerdida(traslado.gananciaNeta);
-        actualizarMayorGanancia(origen, traslado.gananciaNeta);
-        actualizarMayorPerdida(destino, traslado.gananciaNeta);
+        actualizarMayorGanancia(origen);
+        actualizarMayorPerdida(destino);
 
         int indice = origen.indice_superavit;
         heapSuperavit.borrar(indice);
@@ -49,28 +49,28 @@ public class Estadisticas {
         heapSuperavit.encolar(destino);
     }
 
-    public void actualizarMayorGanancia(Ciudad ciudadOrigen, int GananciaNeta) {
-        if (ciudadesMayorGanancia.isEmpty() || ciudadOrigen.ganancia == maxima_ganancia) {
-            ciudadesMayorGanancia.add(ciudadOrigen.id);
-            maxima_ganancia = ciudadOrigen.ganancia;
+    public void actualizarMayorGanancia(Ciudad origen) {
+        if (ciudadesMayorGanancia.isEmpty() || origen.ganancia == maxima_ganancia) {
+            ciudadesMayorGanancia.add(origen.id);
+            maxima_ganancia = origen.ganancia;
         } else {
-            if (ciudadOrigen.ganancia > maxima_ganancia) {
+            if (origen.ganancia > maxima_ganancia) {
                 ciudadesMayorGanancia.clear();
-                ciudadesMayorGanancia.add(ciudadOrigen.id);
-                maxima_ganancia = ciudadOrigen.ganancia;
+                ciudadesMayorGanancia.add(origen.id);
+                maxima_ganancia = origen.ganancia;
             }
         }
     }
 
-    public void actualizarMayorPerdida(Ciudad ciudadDestino, int GananciaNeta) {
-        if (ciudadesMayorPerdida.isEmpty() || ciudadDestino.perdida == maxima_perdida) {
-            ciudadesMayorPerdida.add(ciudadDestino.id);
-            maxima_perdida = ciudadDestino.perdida;
+    public void actualizarMayorPerdida(Ciudad destino) {
+        if (ciudadesMayorPerdida.isEmpty() || destino.perdida == maxima_perdida) {
+            ciudadesMayorPerdida.add(destino.id);
+            maxima_perdida = destino.perdida;
         } else {
-            if (ciudadDestino.perdida > maxima_perdida) {
+            if (destino.perdida > maxima_perdida) {
                 ciudadesMayorPerdida.clear();
-                ciudadesMayorPerdida.add(ciudadDestino.id);
-                maxima_perdida = ciudadDestino.perdida;
+                ciudadesMayorPerdida.add(destino.id);
+                maxima_perdida = destino.perdida;
             }
         }
     }

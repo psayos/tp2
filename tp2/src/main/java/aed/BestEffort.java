@@ -9,56 +9,87 @@ public class BestEffort {
 
     public BestEffort(int cantCiudades, Traslado[] traslados){
         ArrayList<Traslado> array_traslados = new ArrayList<>();
-        for(int i = 0; i<traslados.length;i++){
-            array_traslados.add(traslados[i]);
+        for(Traslado t : traslados){
+            array_traslados.add( t);
         }
-        this.operaciones = new Operaciones(array_traslados); // O(|T|)
+        this.operaciones = new Operaciones(array_traslados);
         this.estadisticas = new Estadisticas(cantCiudades);
     }
 
-    public void registrarTraslados(Traslado[] traslados) {
-        for (int i = 0; i < traslados.length; i++) {
-            this.operaciones.heap_tiempo().encolar(traslados[i]);
-            this.operaciones.heap_ganancia().encolar(traslados[i]);
+    public void registrarTraslados(Traslado[] traslados_){
+        for (Traslado t : traslados_) {
+            operaciones.heapGanancia.encolar(t);
+            operaciones.heapTiempo.encolar(t);
         }
     }
 
     public int[] despacharMasRedituables(int n){
-        int[] res = new int[n];
-        Traslado mas_redituable;
-        for(int i = 0; i<n;i++){
-            mas_redituable = this.operaciones.heap_ganancia().desencolar();
-            res[i] = mas_redituable.id;
-            estadisticas.registrarFinanzas(mas_redituable);
+        int[] mas_redituables;
+        int tamaño = operaciones.heapGanancia.tamaño();
+
+        if( n > tamaño){
+            n = tamaño;
         }
-        return res;
+            mas_redituables = new int[n];
+            for (int i=0; i<n; i++){
+                Traslado max = operaciones.heapGanancia.desencolar();
+                mas_redituables[i]= max.id;
+                int indice= max.indice_tiempo;
+                operaciones.heapTiempo.borrar(indice);
+                 estadisticas.registrar_finanzas(max);
+                }
+        return mas_redituables;
     }
+
 
     public int[] despacharMasAntiguos(int n){
-        int[] res = new int[n];
-        Traslado mas_antiguo;
-        for(int i = 0;i<n;i++){
-            mas_antiguo = this.operaciones.heap_tiempo().desencolar();
-            res[i] = mas_antiguo.id;
-            estadisticas.registrarFinanzas(mas_antiguo);
+        int[] mas_antiguos;
+        int tamaño = operaciones.heapTiempo.tamaño();
+        if( n > tamaño){
+            n = tamaño;
         }
-        return res;
+            mas_antiguos = new int[n];
+            for (int i=0; i<n; i++){ // O(n)
+                Traslado max =operaciones.heapTiempo.desencolar();
+                mas_antiguos[i]= max.id;
+                int indice = max.indice_ganancia;
+                operaciones.heapGanancia.borrar(indice);
+                estadisticas.registrar_finanzas(max);
+            }
+        return mas_antiguos;
     }
 
+
+
+
     public int ciudadConMayorSuperavit(){
-        Ciudad ciudad_mayor_superavit = estadisticas.heapSuperavit.desencolar();
-        return ciudad_mayor_superavit.id();
+        return estadisticas.heapSuperavit().proximo().id;
     }
 
     public ArrayList<Integer> ciudadesConMayorGanancia(){
-        return estadisticas.ganadora;
+        ArrayList<Integer> ciudades_ganancias= new ArrayList<>();
+        ArrayList<Integer> mayor_ganancia = estadisticas.ciudadesMayorGanancia;
+        for(int i = 0;i< mayor_ganancia.size();i++){
+            ciudades_ganancias.add(mayor_ganancia.get(i));
+        }
+        return  ciudades_ganancias;
     }
+// Este y el de abajo estan mal, no cumple la complejidad.
+
 
     public ArrayList<Integer> ciudadesConMayorPerdida(){
-        return estadisticas.perdedora;
-    }
+            ArrayList<Integer> ciudades_perdidas= new ArrayList<>();
+            ArrayList<Integer> mayor_perdidas = estadisticas.ciudadesMayorPerdida;
+            for(int i = 0;i< mayor_perdidas.size();i++){
+                ciudades_perdidas.add(mayor_perdidas.get(i));
+            }
+            return  ciudades_perdidas;
+
+
+        }
 
     public int gananciaPromedioPorTraslado(){
-        return estadisticas.ganancia_total/ estadisticas.traslados;
+        return estadisticas.ganancia_total/estadisticas.traslados_total;
     }
+    
 }

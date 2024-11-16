@@ -1,163 +1,131 @@
 package aed;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 
-
 public class Heap<T> {
-    ArrayList<T> elementos;
-    Comparator<T> comparador;
-    ArrayList<Integer> indices;
 
-    public Heap(ArrayList<T> array, Comparator<T> comparator) {
-        this.comparador = comparator;
-        this.elementos = new ArrayList<T>();
-        this.indices = new ArrayList<>();
-        for (int i = 0; i < array.size(); i++) {
-            indices.add(i); // Inicializa con índices en orden
-        }
-        this.elementos = heapify(array);
-    }
+    private ArrayList<T> elementos;
+    int tamaño;
+    private Comparator<T> comparador; 
+    private boolean esCiudad;
+    private boolean esGanancia;
 
 
-// Algoritmos
-
-// Representado con un array.
-// Si nodo v es la raiz, p(v)=0
-// Su hijo izquierdo u es p(u) = 2p(v)+1
-// Su hijo derecho w es p(w) = 2p(w)+2
-
-
-    // Shift-up
-    public void shift_up(int indice) {
-        if (indice == 0) {
-            return;
-        } else {
-            int indice_padre = 0;
-            if (indice % 2 == 0) { // Es hijo derecho.
-                indice_padre = (indice - 2) / 2;
+    public Heap(ArrayList<T> arr, Comparator<T> comp, boolean esCiudad, boolean esGanancia) { // Complejidad O(n)
+        tamaño = arr.size();
+        elementos = new ArrayList<T>(arr);
+        comparador = comp;
+        this.esCiudad = esCiudad;
+        this.esGanancia = esGanancia;
+        for (int i = 0; i < tamaño; i++) {
+            T Actual = elementos.get(i);
+            if (!esCiudad){
+                ((Traslado) Actual).indice_ganancia = i;
+                ((Traslado) Actual).indice_tiempo = i;
             } else {
-                indice_padre = (indice - 1) / 2;
+                ((Ciudad) Actual).indice_superavit = i; //O(1)
             }
-            if (comparador.compare(elementos.get(indice), elementos.get(indice_padre)) > 0) {
-                swap(indice, indice_padre);
-                shift_up(indice_padre);
-            }
+        }
+        heapify();
+    }
+
+
+    public T proximo() {
+        return elementos.get(0);
+        }
+
+    public void encolar(T elem) {
+        elementos.add(elem);
+        tamaño = tamaño + 1;
+        sift_up(tamaño - 1);
+    }
+    
+    private void sift_up(int indiceActual){
+        if (indiceActual == 0 ) {
+            return;
+        }
+        int indicePadre = (indiceActual - 1) / 2; 
+        if (comparador.compare(elementos.get(indiceActual), elementos.get(indicePadre)) > 0) {
+            swap(indiceActual, indicePadre);
+            sift_up(indicePadre);
         }
     }
 
-    public void swap(int indice1, int indice2) {
-        T indice3 = elementos.get(indice1);
-        elementos.set(indice1, elementos.get(indice2));
-        elementos.set(indice2, indice3);
+    public void swap(int indice1, int indice2){
+        T Actual = elementos.get(indice1); //O(1)
+        T ElemIndicePadre = elementos.get(indice2);//O(1)
+        elementos.set(indice1, elementos.get(indice2));//O(1)
+        elementos.set(indice2, Actual);//O(1)
+        if (!esCiudad) {
+            if(esGanancia){
+                ((Traslado) Actual).indice_ganancia =indice2;
+                ((Traslado) ElemIndicePadre).indice_ganancia =indice1;
+            }else{
+                ((Traslado) Actual).indice_tiempo =indice2;
+                ((Traslado) ElemIndicePadre).indice_tiempo =indice1;
+            }
+        } else { //O(1)
+            ((Ciudad) Actual).indice_superavit = indice2;
+            ((Ciudad) ElemIndicePadre).indice_superavit = indice1;
+        }
 
-        int tempIndex = indices.get(indice1);
-        indices.set(indice1, indices.get(indice2));
-        indices.set(indice2, tempIndex);
     }
 
-
-    // Encolar
-// Inserta el elemento al final del heap.
-// Hace shift-up, lo sube.
-    public void encolar(T elemento_nuevo) {
-        elementos.add(elemento_nuevo);
-        shift_up(elementos.size() - 1);
-    }
-
-
-    // Desencolar
-// Reemplaza la raiz por la ultima hoja.
-// Hace shift- down.
     public T desencolar() {
-        T res = elementos.get(0);
-        swap(0, elementos.size()-1);
-        elementos.remove(elementos.size() - 1);
-        shift_down(0);
-        return res;
+        T maximo = elementos.get(0);
+        if (tamaño==1){
+            elementos.remove(0);
+            tamaño--;
+        }
+        else{  //O(1)
+            elementos.set(0, elementos.get(tamaño - 1));
+            elementos.remove(tamaño - 1);
+            tamaño = tamaño -1;
+            sift_down(0);
+        }
+        return maximo;
     }
 
-// Shift - down
+    public int tamaño(){
+        return tamaño;
+    }
 
+    private void sift_down(int indice) {
+        int r = 2 * indice + 1;
+        int l = 2 * indice + 2;
+        int indiceMaximo = indice;
 
-    private void shift_down(int indice) {
-        int n = elementos.size();
+        if (l < tamaño && comparador.compare(elementos.get(l), elementos.get(indiceMaximo)) > 0) {
+            indiceMaximo = l;
+        }
 
-        while (true) {
-            int l = 2 * indice + 1;
-            int r = 2 * indice + 2;
-            int maxIndex = indice;
+        if (r < tamaño && comparador.compare(elementos.get(r), elementos.get(indiceMaximo)) > 0) {
+            indiceMaximo = r;
+        }
 
-            if (l < n && comparador.compare(elementos.get(l), elementos.get(maxIndex)) > 0) {
-                maxIndex = l;
-            }
-
-            if (r < n && comparador.compare(elementos.get(r), elementos.get(maxIndex)) > 0) {
-                maxIndex = r;
-            }
-
-            if (indice == maxIndex) {
-                break;
-            }
-            swap(indice, maxIndex);
-            indice = maxIndex;
+        if (indiceMaximo != indice) {
+            swap(indice,indiceMaximo);
+            sift_down(indiceMaximo);
         }
     }
 
-
-    public ArrayList<T> heapify(ArrayList<T> array) {
-        int n = array.size();
-        this.elementos = new ArrayList<>(array);
-        for (int i = (n / 2) - 1; i >= 0; i--) {
-            shift_down(i);
+    public void borrar(int indice){
+        if (indice < 0 || indice>= tamaño){
         }
-        return this.elementos;
+        else {
+            T ultimo= elementos.get(tamaño-1);
+            elementos.set(indice,ultimo);
+            sift_down(indice);
+            elementos.remove(tamaño-1);
+            tamaño--;
+        }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Si ahora tengo un arreglo que me va guardando
-// en que posicion del heap esta cada una de las ciudades,
-// puedo modificar el valor de superavit en O(log(C)), ya que
-// evita buscar en el heap.
-
-    public void borrar(int indice_ciudad) {
-        // Hay que borrarlo
-        int indice_heap = indices.get(indice_ciudad);
-        // Swapeo el indice con el ultimo elemento del array
-        swap(indice_heap, elementos.size());
-        elementos.remove(elementos.size()-1);
-        shift_down(indice_heap);
+    public void heapify() {
+        for (int i = (tamaño / 2) - 1; i >= 0; i--) {
+            sift_down(i);
+        }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

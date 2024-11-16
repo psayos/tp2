@@ -1,40 +1,30 @@
 package aed;
 
+
 public class Ciudad {
     int id;
     int ganancia;
     int perdida;
-    int superavit;
+    int superavit; 
+    int indice_superavit;
 
-    public Ciudad(int nuevo_id,int nuevo_ganancia,int nuevo_perdida){
-        this.id = nuevo_id;
-        this.ganancia = nuevo_ganancia;
-        this.perdida = nuevo_perdida;
-        this.superavit = nuevo_ganancia-nuevo_perdida;
+    public Ciudad(int id){
+        ganancia = 0;
+        perdida = 0;
+        superavit = 0; 
+        this.id = id;
+        this.indice_superavit = 0;
     }
 
-    public int id(){
-        return id;
+    public void actualizarGanancia(int nueva_ganancia){
+        ganancia = ganancia + nueva_ganancia;
+        superavit = ganancia - perdida; 
     }
 
-    public int ganancia(){
-        return ganancia;
-    }
+    public void actualizarPerdida(int nueva_perdida){
+        perdida = perdida + nueva_perdida;
+        superavit = ganancia - perdida;
 
-    public int perdida(){
-        return perdida;
-    }
-
-    public int superavit(){
-        return superavit;
-    }
-
-    public void cambiar_ganancia(int nueva_ganancia){
-        this.ganancia = nueva_ganancia;
-    }
-
-
-    public void cambiar_perdida(int nueva_perdida){
-        this.perdida = nueva_perdida;
     }
 }
+

@@ -1,30 +1,13 @@
 package aed;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 
-public class Operaciones{
-    private Heap<Traslado> heap_ganancia;
-    private Heap<Traslado> heap_tiempo;
+public class Operaciones {
+     Heap<Traslado> heapGanancia;
+     Heap<Traslado> heapTiempo;
 
-
-
-    public Heap<Traslado> heap_ganancia(){
-        return heap_ganancia;
-    }
-
-    public Heap<Traslado> heap_tiempo(){
-        return heap_tiempo;
-    }
-
-// Armar constructor, pasa ArrayList a heaps.
-
-    public Operaciones(ArrayList<Traslado> traslados){
-        ComparadorTiempo comp_tiempo = new ComparadorTiempo();
-        ComparadorGanancias comp_ganancia = new ComparadorGanancias();
-        this.heap_tiempo = new Heap<>(traslados,comp_tiempo);
-        this.heap_ganancia = new Heap<>(traslados,comp_ganancia);
-
+    public Operaciones(ArrayList<Traslado> infoTraslados) {
+        heapGanancia = new Heap<>(infoTraslados, new ComparadorGanancia(),false,true);
+        heapTiempo = new Heap<>(infoTraslados, new ComparadorTiempo(),false,false);
     }
 }
-

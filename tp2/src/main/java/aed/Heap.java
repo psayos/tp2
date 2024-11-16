@@ -52,21 +52,21 @@ public class Heap<T> {
     }
 
     public void swap(int indice1, int indice2){
-        T Actual = elementos.get(indice1); //O(1)
-        T ElemIndicePadre = elementos.get(indice2);//O(1)
+        T actual = elementos.get(indice1); //O(1)
+        T padre = elementos.get(indice2);//O(1)
         elementos.set(indice1, elementos.get(indice2));//O(1)
-        elementos.set(indice2, Actual);//O(1)
+        elementos.set(indice2, actual);//O(1)
         if (!esCiudad) {
             if(esGanancia){
-                ((Traslado) Actual).indice_ganancia =indice2;
-                ((Traslado) ElemIndicePadre).indice_ganancia =indice1;
+                ((Traslado) actual).indice_ganancia =indice2;
+                ((Traslado) padre).indice_ganancia =indice1;
             }else{
-                ((Traslado) Actual).indice_tiempo =indice2;
-                ((Traslado) ElemIndicePadre).indice_tiempo =indice1;
+                ((Traslado) actual).indice_tiempo =indice2;
+                ((Traslado) padre).indice_tiempo =indice1;
             }
         } else { //O(1)
-            ((Ciudad) Actual).indice_superavit = indice2;
-            ((Ciudad) ElemIndicePadre).indice_superavit = indice1;
+            ((Ciudad) actual).indice_superavit = indice2;
+            ((Ciudad) padre).indice_superavit = indice1;
         }
 
     }

@@ -68,7 +68,7 @@ public class Estadisticas {
             maxima_perdida = ciudadDestino.perdida;
         } else {
             if (ciudadDestino.perdida > maxima_perdida) {
-                ciudadesMayorPerdida = new ArrayList<Integer>(ciudades.size());
+                ciudadesMayorPerdida.clear();
                 ciudadesMayorPerdida.add(ciudadDestino.id);
                 maxima_perdida = ciudadDestino.perdida;
             }

@@ -24,7 +24,11 @@ public class Ciudad {
     public void actualizarPerdida(int nueva_perdida){
         perdida = perdida + nueva_perdida;
         superavit = ganancia - perdida;
+    }
 
+
+    public void cambiar_indice_superavit(int nuevo_indice){
+        indice_superavit = nuevo_indice;
     }
 }
 

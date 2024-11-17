@@ -67,25 +67,12 @@ public class BestEffort {
     }
 
     public ArrayList<Integer> ciudadesConMayorGanancia(){
-        ArrayList<Integer> ciudades_ganancias= new ArrayList<>();
-        ArrayList<Integer> mayor_ganancia = estadisticas.ciudadesMayorGanancia;
-        for(int i = 0;i< mayor_ganancia.size();i++){
-            ciudades_ganancias.add(mayor_ganancia.get(i));
-        }
-        return  ciudades_ganancias;
+        return  estadisticas.ciudadesMayorGanancia;
     }
-// Este y el de abajo estan mal, no cumple la complejidad.
 
 
     public ArrayList<Integer> ciudadesConMayorPerdida(){
-            ArrayList<Integer> ciudades_perdidas= new ArrayList<>();
-            ArrayList<Integer> mayor_perdidas = estadisticas.ciudadesMayorPerdida;
-            for(int i = 0;i< mayor_perdidas.size();i++){
-                ciudades_perdidas.add(mayor_perdidas.get(i));
-            }
-            return  ciudades_perdidas;
-
-
+            return  estadisticas.ciudadesMayorPerdida;
         }
 
     public int gananciaPromedioPorTraslado(){

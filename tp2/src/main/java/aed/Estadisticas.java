@@ -16,14 +16,14 @@ public class Estadisticas {
         ciudadesMayorGanancia = new ArrayList<>();
         ciudadesMayorPerdida = new ArrayList<>();
         int j = 0;
-        ArrayList<Ciudad> arrCiudades = new ArrayList<Ciudad>();
+        ArrayList<Ciudad> lista_ciudades = new ArrayList<>();
         while (j < cantidad_ciudades) {
             Ciudad c = new Ciudad(j);
-            arrCiudades.add(c);
+            lista_ciudades.add(c);
             j++;
         }
-        heapSuperavit = new Heap<>(arrCiudades, new ComparadorSuperavit(), true, false); //O(C)
-        ciudades = new ArrayList<>(arrCiudades); //O(1)
+        heapSuperavit = new Heap<>(lista_ciudades, new ComparadorSuperavit(), true, false); //O(C)
+        ciudades = new ArrayList<>(lista_ciudades); //O(1)
         maxima_ganancia = 0;
         maxima_perdida = 0;
         ganancia_total = 0;

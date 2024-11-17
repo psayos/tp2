@@ -21,4 +21,13 @@ public class Traslado {
         this.indice_ganancia = 0;
         this.indice_tiempo = 0;
     }
+
+    public void cambiar_indice_ganancia(int nuevo_indice){
+        indice_ganancia = nuevo_indice;
+    }
+
+
+    public void cambiar_indice_tiempo(int nuevo_indice){
+        indice_tiempo = nuevo_indice;
+    }
 }

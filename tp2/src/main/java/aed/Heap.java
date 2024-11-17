@@ -18,12 +18,18 @@ public class Heap<T> {
         this.esCiudad = esCiudad;
         this.esGanancia = esGanancia;
         for (int i = 0; i < tamaño; i++) {
-            T Actual = elementos.get(i);
+            T actual = elementos.get(i);
             if (!esCiudad){
-                ((Traslado) Actual).indice_ganancia = i;
-                ((Traslado) Actual).indice_tiempo = i;
+                if(esGanancia){
+                    Traslado elem = (Traslado) actual;
+                    elem.cambiar_indice_ganancia(i);
+                }else{
+                    Traslado elem = (Traslado) actual;
+                    elem.cambiar_indice_tiempo(i);
+                }
             } else {
-                ((Ciudad) Actual).indice_superavit = i; //O(1)
+                Ciudad elem = (Ciudad) actual;
+                elem.cambiar_indice_superavit(i);
             }
         }
         heapify();
@@ -40,13 +46,13 @@ public class Heap<T> {
         sift_up(tamaño - 1);
     }
     
-    private void sift_up(int indiceActual){
-        if (indiceActual == 0 ) {
+    private void sift_up(int indice){
+        if (indice == 0 ) {
             return;
         }
-        int indicePadre = (indiceActual - 1) / 2; 
-        if (comparador.compare(elementos.get(indiceActual), elementos.get(indicePadre)) > 0) {
-            swap(indiceActual, indicePadre);
+        int indicePadre = (indice - 1) / 2;
+        if (comparador.compare(elementos.get(indice), elementos.get(indicePadre)) > 0) {
+            swap(indice, indicePadre);
             sift_up(indicePadre);
         }
     }
@@ -58,17 +64,22 @@ public class Heap<T> {
         elementos.set(indice2, actual);//O(1)
         if (!esCiudad) {
             if(esGanancia){
-                ((Traslado) actual).indice_ganancia =indice2;
-                ((Traslado) padre).indice_ganancia =indice1;
+                Traslado elem = (Traslado) actual;
+                Traslado elem_padre = (Traslado) padre;
+                elem.cambiar_indice_ganancia(indice2);
+                elem_padre.cambiar_indice_ganancia(indice1);
             }else{
-                ((Traslado) actual).indice_tiempo =indice2;
-                ((Traslado) padre).indice_tiempo =indice1;
+                Traslado elem = (Traslado) actual;
+                Traslado elem_padre = (Traslado) padre;
+                elem.cambiar_indice_tiempo(indice2);
+                elem_padre.cambiar_indice_tiempo(indice1);
             }
         } else { //O(1)
-            ((Ciudad) actual).indice_superavit = indice2;
-            ((Ciudad) padre).indice_superavit = indice1;
+            Ciudad elem = (Ciudad) actual;
+            Ciudad elem_padre = (Ciudad) padre;
+            elem.cambiar_indice_superavit(indice2);
+            elem_padre.cambiar_indice_superavit(indice1);
         }
-
     }
 
     public T desencolar() {
@@ -111,6 +122,7 @@ public class Heap<T> {
 
     public void borrar(int indice){
         if (indice < 0 || indice>= tamaño){
+            return;
         }
         else {
             T ultimo= elementos.get(tamaño-1);

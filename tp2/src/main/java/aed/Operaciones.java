@@ -7,7 +7,7 @@ public class Operaciones {
      Heap<Traslado> heapTiempo;
 
     public Operaciones(ArrayList<Traslado> arrayTraslados) {
-        heapGanancia = new Heap<>(arrayTraslados, new ComparadorGanancia(),false,true);
-        heapTiempo = new Heap<>(arrayTraslados, new ComparadorTiempo(),false,false);
+        heapGanancia = new Heap<>(arrayTraslados, new ComparadorGanancia(),false,true);  // O(|T|)
+        heapTiempo = new Heap<>(arrayTraslados, new ComparadorTiempo(),false,false); // O(|T|)
     }
 }
